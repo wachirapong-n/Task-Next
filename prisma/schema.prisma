@@ -1,0 +1,27 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model task {
+  taskID String @id @default(uuid())
+  title String
+  description String?
+  dueDate DateTime?
+  submitDate DateTime?
+  status String?
+
+  user String
+  account account @relation(fields: [user], references: [username])
+}
+
+model account {
+  username String @id @default(uuid())
+  password String
+
+  task task[]
+}
